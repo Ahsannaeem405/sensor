@@ -378,6 +378,8 @@ function updatesensordetail(Request $request){
     return redirect()->back()->with('success', 'Successfully Updated');
 }
 function home_admin(){
+    $userid=Auth::user()->id;
+    $sensor=Sensor::where('user_id',$userid)->
     return view('Admin_asstes.home_admin');
 }
 }

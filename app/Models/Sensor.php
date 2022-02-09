@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Sensor extends Model
 {
     use HasFactory;
+    public function sensorDetail()
+    {
+        return $this->hasMany('App\Models\Sensor_detail', 'sensor_id');
+    }
 }
