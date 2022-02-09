@@ -19,7 +19,9 @@
 
                 @endif
                 <div class="card-header  align-items-start p-2">
-                    <h3>Admin List</h3>
+                    <h3>Sensor Detail</h3>
+
+                    <a href="{{url('admin/addsensordetail/'.$sensorid)}}" class="btn btn-primary">Add SensorDetail</a>
                 </div>
 
 
@@ -33,12 +35,18 @@
                             <thead>
                               <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Sensor_IP</th>
+                                <th scope="col">Sensor_id</th>
 
-                                <th scope="col">Sensor_Status</th>
+                                <th scope="col">Temperature</th>
 
 
-                                <th scope="col">Sensor_Restart</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Clock</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Search_time</th>
+
+
 
 
                                 <th scope="col">Action</th>
@@ -50,18 +58,24 @@
                                 @php
                                     $i=0;
                                 @endphp
-                                @foreach ($sensors as $admin )
+                                @foreach ($sensor_detail as $admin )
                                 @php
                                     $i++;
                                 @endphp
                                 <tr>
                                     <th scope="row">{{$i}}</th>
-                                    <td>{{$admin->Sensor_IP}}</td>
-                                    <td>{{$admin->Sensor_Status}}</td>
+                                    <td>{{$admin->sensor_id}}</td>
+                                    <td>{{$admin->temp}}</td>
 
-                                    <td>{{$admin->Sensor_Restart}}</td>
+                                    <td>{{$admin->time}}</td>
+                                    <td>{{$admin->Date}}</td>
+                                    <td>{{$admin->Clock}}</td>
+                                    <td>{{$admin->status}}</td>
+                                    <td>{{$admin->search_time}}</td>
 
-                                    <td><a href="{{url('admin/editsensor/'.$admin->id)}}"><i class="far fa-edit"></i></a> &nbsp; <a href="{{url('admin/deletesensor/'.$admin->id)}}" style="color: red"><i class="far fa-trash-alt"></i></a> &nbsp; <a href="{{url('admin/viewsensordetail/'.$admin->id)}}"><i class="fas fa-eye"></i></a></td>
+
+
+                                    <td><a href="{{url('admin/editsensor_detail/'.$admin->id)}}"><i class="far fa-edit"></i></a> &nbsp; <a href="{{url('admin/deletesensor_detail/'.$admin->id)}}" style="color: red"><i class="far fa-trash-alt"></i></a> </td>
 
 
                                   </tr>

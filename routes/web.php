@@ -43,6 +43,13 @@ Route::prefix('/admin')->middleware(['admin','auth'])->group(function(){
     Route::get('/deletesensor/{id}',[AdminController::class,'deletesensor']);
     route::get('/editsensor/{id}',[AdminController::class,'editsensor']);
     Route::post('/updatesensor',[AdminController::class,'updatesensor']);
+    Route::get('viewsensordetail/{id}',[AdminController::class,'viewsensordetail']);
+    Route::get('addsensordetail/{sensorid}',[AdminController::class,'addsensordetail']);
+    Route::post('addsensordetail_form',[AdminController::class,'addsensordetail_form']);
+    Route::get('deletesensor_detail/{id}',[AdminController::class,'deletesensor_detail']);
+    Route::get('editsensor_detail/{id}',[AdminController::class,'editsensor_detail']);
+    Route::post('updatesensordetail',[AdminController::class,'updatesensordetail']);
+    Route::get('home_admin',[AdminController::class,'home_admin']);
 
 
 

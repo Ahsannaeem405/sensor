@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sensor;
+use App\Models\Sensor_detail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -323,5 +325,59 @@ function updatesensor(Request $request){
     $sensor->user_id=$request->user_id;
     $sensor->save();
     return redirect()->back()->with('success', 'Successfully Sensor Updated');
+}
+function viewsensordetail($id){
+    // dd($id);
+    $sensor_detail=Sensor_detail::where('sensor_id',$id)->get();
+    return view('Admin_asstes.viewsensordetail',['sensor_detail'=>$sensor_detail,'sensorid'=>$id]);
+}
+function addsensordetail($sensorid){
+return view('Admin_asstes.addsensordetail',['sensorid'=>$sensorid]);
+}
+function addsensordetail_form(Request $request){
+$sensor_detail=new Sensor_detail();
+$sensor_detail->sensor_id=$request->sensor_id;
+$sensor_detail->temp=$request->temp;
+$date = Carbon::now();
+// dd($date);
+$sensor_detail->time=$date;
+$sensor_detail->Date=$request->Date;
+$sensor_detail->Clock=$request->Clock;
+$sensor_detail->status=$request->status;
+$sensor_detail->search_time=$request->search_time;
+
+$sensor_detail->save();
+return redirect()->back()->with('success', 'Successfully Sensor_Detail Added');
+
+
+
+}
+function deletesensor_detail($id){
+    $sensor=Sensor_detail::find($id);
+    $sensor->delete();
+return redirect()->back()->with('success', 'Successfully Deleted');
+
+}
+function editsensor_detail($id){
+    $sensor=Sensor_detail::find($id);
+    return view('Admin_asstes.editsensor_detail',['sensor'=>$sensor]);
+}
+function updatesensordetail(Request $request){
+    $sensor_detail=Sensor_detail::find($request->id);
+    $sensor_detail->sensor_id=$request->sensor_id;
+    $sensor_detail->temp=$request->temp;
+    $date = Carbon::now();
+    // dd($date);
+    $sensor_detail->time=$date;
+    $sensor_detail->Date=$request->Date;
+    $sensor_detail->Clock=$request->Clock;
+    $sensor_detail->status=$request->status;
+    $sensor_detail->search_time=$request->search_time;
+
+    $sensor_detail->save();
+    return redirect()->back()->with('success', 'Successfully Updated');
+}
+function home_admin(){
+    return view('Admin_asstes.home_admin');
 }
 }

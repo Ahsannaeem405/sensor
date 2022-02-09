@@ -46,11 +46,31 @@
 
             {{-- admin --}}
             @if (Auth::user()->role=="admin" || Auth::user()->role=="user")
+            @if (Auth::user()->role=="admin" )
             <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Home</span></a>
-                <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Chart</span></a>
-                <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Sensor List</span></a>
-                <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Search</span></a>
+                <ul class="menu-content">
 
+                    <li><a href="{{url('/admin/home_admin')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Home</span></a>
+                    </li>
+
+                </ul>
+            </li>
+            @endif
+            @if (Auth::user()->role=="user" )
+            <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Home</span></a>
+                <ul class="menu-content">
+
+                    <li><a href="{{url('#')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Home</span></a>
+                    </li>
+
+                </ul>
+            </li>
+            @endif
+
+                <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Chart</span></a></li>
+                <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Sensor List</span></a></li>
+                <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Search</span></a>
+                </li>
 
             @endif
 
