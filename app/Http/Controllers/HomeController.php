@@ -19,7 +19,7 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Contracts\Support\Renderable1
      */
     public function index()
     {
@@ -29,5 +29,6 @@ class HomeController extends Controller
         Auth::logout();
 
         return redirect('/login')->with('status', 'Logout Successfully');
+        
     }
 }
