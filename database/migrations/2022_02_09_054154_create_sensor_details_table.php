@@ -19,10 +19,10 @@ class CreateSensorDetailsTable extends Migration
             // $table->string('sensor_id')->nullable();
             $table->foreignId('sensor_id')->constrained('sensors')->onUpdate('cascade')->onDelete('cascade');
             $table->string('temp')->nullable();
-            $table->string('time')->nullable();
-            $table->string('Date')->nullable();
-            $table->string('Clock')->nullable();
-            $table->string('status')->nullable();
+            $table->dateTime('time')->nullable();
+            $table->date('Date')->nullable();
+            $table->time('Clock')->nullable();
+            $table->text('status')->nullable();
             $table->string('search_time')->nullable();
 
             // $table->foreign('sensor_id')->references('id')->on('sensors')->onDelete('cascade');

@@ -32,9 +32,9 @@
             <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Sensor</span></a>
                 <ul class="menu-content">
 
-                    <li><a href="{{url('/admin/addSensor')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Add Sensor</span></a>
+                    <li><a href="{{url('/admin/add/sensor')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Add Sensor</span></a>
                     </li>
-                    <li><a href="{{url('/admin/showSensor')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">List Sensor</span></a>
+                    <li><a href="{{url('/admin/view/sensor')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">List Sensor</span></a>
                     </li>
 
 
@@ -50,7 +50,7 @@
             <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Home</span></a>
                 <ul class="menu-content">
 
-                    <li><a href="{{url('/admin/home_admin')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Home</span></a>
+                    <li><a href="{{url('/admin/basictoday')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Home</span></a>
                     </li>
 
                 </ul>
@@ -67,8 +67,11 @@
             </li>
             @endif
 
-                <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Chart</span></a></li>
-                <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Sensor List</span></a></li>
+                    <li><a href="{{url('/admin/chart')}}"><i class="feather icon-airplay"></i><span class="menu-item" data-i18n="Shop">Chart</span></a>
+                    </li>
+
+
+                    <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Sensor List</span></a></li>
                 <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Search</span></a>
                 </li>
 

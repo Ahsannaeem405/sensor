@@ -16,7 +16,7 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::get('/logout',[App\Http\Controllers\HomeController::class, 'logout']);
@@ -37,9 +37,9 @@ Route::prefix('/admin')->middleware(['admin','auth'])->group(function(){
     Route::get('/deleteuser/{id}',[AdminController::class,'deleteuser']);
     Route::get('/edituser/{id}',[AdminController::class,'edituser']);
     Route::post('/updateuser',[AdminController::class,'updateuser']);
-    Route::get('/addSensor',[AdminController::class,'addSensor']);
+    Route::get('/add/sensor',[AdminController::class,'addSensor']);
     Route::post('/addsensor_form',[AdminController::class,'addsensor_form']);
-    Route::get('/showSensor',[AdminController::class,'showSensor']);
+    Route::get('/view/sensor',[AdminController::class,'showSensor']);
     Route::get('/deletesensor/{id}',[AdminController::class,'deletesensor']);
     route::get('/editsensor/{id}',[AdminController::class,'editsensor']);
     Route::post('/updatesensor',[AdminController::class,'updatesensor']);
@@ -49,7 +49,10 @@ Route::prefix('/admin')->middleware(['admin','auth'])->group(function(){
     Route::get('deletesensor_detail/{id}',[AdminController::class,'deletesensor_detail']);
     Route::get('editsensor_detail/{id}',[AdminController::class,'editsensor_detail']);
     Route::post('updatesensordetail',[AdminController::class,'updatesensordetail']);
-    Route::get('home_admin',[AdminController::class,'home_admin']);
+    Route::get('basictoday',[AdminController::class,'home_admin']);
+    Route::get('chart',[AdminController::class,'chart']);
+
+    Route::post('view/temp',[AdminController::class,'view_temp']);
 
 
 
