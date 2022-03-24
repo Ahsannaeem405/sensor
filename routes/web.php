@@ -50,9 +50,21 @@ Route::prefix('/admin')->middleware(['admin','auth'])->group(function(){
     Route::get('editsensor_detail/{id}',[AdminController::class,'editsensor_detail']);
     Route::post('updatesensordetail',[AdminController::class,'updatesensordetail']);
     Route::get('basictoday',[AdminController::class,'home_admin']);
+    Route::get('basictoday2',[AdminController::class,'basictoday2']);
     Route::get('chart',[AdminController::class,'chart']);
 
     Route::post('view/temp',[AdminController::class,'view_temp']);
+
+
+    Route::get('disablesensor/{id}',[AdminController::class,'disablesensor']);
+    Route::get('sensor_list',[AdminController::class,'sensor_list']);
+
+    Route::get('sensor_list_user',[AdminController::class,'sensor_list_user']);
+    Route::get('disabled_sensors',[AdminController::class,'disabled_sensors']);
+    Route::get('ablesensor/{id}',[AdminController::class,'ablesensor']);
+    Route::post('unable_sensor',[AdminController::class,'unable_sensor']);
+
+
 
 
 

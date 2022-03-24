@@ -53,6 +53,13 @@
                     <li><a href="{{url('/admin/basictoday')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Home</span></a>
                     </li>
 
+
+                </ul>
+            </li>
+            <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Sensor List</span></a>
+                <ul class="menu-content">
+                <li><a href="{{url('/admin/sensor_list')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Sensor List</span></a>
+                </li>
                 </ul>
             </li>
             @endif
@@ -60,9 +67,15 @@
             <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Home</span></a>
                 <ul class="menu-content">
 
-                    <li><a href="{{url('#')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Home</span></a>
+                    <li><a href="{{url('admin/basictoday2')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Home</span></a>
                     </li>
 
+                </ul>
+            </li>
+            <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Sensor List</span></a>
+                <ul class="menu-content">
+                <li><a href="{{url('/admin/sensor_list_user')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Sensor List</span></a>
+                </li>
                 </ul>
             </li>
             @endif
@@ -71,7 +84,7 @@
                     </li>
 
 
-                    <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Sensor List</span></a></li>
+
                 <li class="nav-item has-sub"><a href="#"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Ecommerce">Search</span></a>
                 </li>
 

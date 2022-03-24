@@ -16,6 +16,10 @@ class Sensor extends Model
     {
         return $this->hasMany('App\Models\Sensor_detail', 'sensor_id');
     }
+    public function sensorDetail2()
+    {
+        return $this->hasOne('App\Models\Sensor_detail', 'sensor_id')->latest();
+    }
 
     // public function Detail()
     // {
@@ -27,6 +31,10 @@ class Sensor extends Model
         return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('tick', 1)->where('act', 'home');
     }
 
+    public function Sensorr2()
+    {
+        return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('act','disable');
+    }
     public function UserSensor()
     {
         return $this->belongsTo('App\Models\User_senor' , 'id', 'sensor_id')->where('user_id', Auth::user()->id)->where('type', 'homee');

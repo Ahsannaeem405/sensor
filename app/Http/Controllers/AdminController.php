@@ -272,6 +272,8 @@ class AdminController extends Controller
     {
         $sensor = new Sensor();
         $sensor->Sensor_Location = $request->Sensor_Location;
+        $sensor->point = $request->point;
+
 
         $sensor->Sensor_IP = $request->Sensor_IP;
         $sensor->Sensor_Subnet = $request->Sensor_Subnet;
@@ -382,6 +384,16 @@ class AdminController extends Controller
 
         return view('Admin_asstes.home_admin', compact('sens'));
     }
+    function basictoday2()
+    {
+
+        $userid = Auth::user()->admin_id;
+
+        $sens  = Sensor::where('user_id', $userid)->orWhere('user_id', auth::user()->admin_id)->get();
+        $sensor = Sensor::where('user_id', $userid)->get();
+
+        return view('Admin_asstes.home_admin2', compact('sens'));
+    }
 
 
     public function chart()
@@ -417,5 +429,48 @@ class AdminController extends Controller
     }
 
         return back()->with('success', 'Sensor Add Successfully');
+    }
+    function disablesensor($id){
+
+        $sensor=new For_sensor();
+        $sensor->userID=Auth::user()->id;
+        $sensor->sens_id=$id;
+        $sensor->act="disable";
+
+
+        $sensor->save();
+        return back()->with('success', 'Sensor Disabled Successfully');
+
+    }
+    function sensor_list(){
+        $sensors=Sensor::where('user_id',Auth::user()->id)->get();
+        return view('Admin_asstes.sensor_list',compact('sensors'));
+    }
+    function sensor_list_user(){
+        $sensors=Sensor::where('user_id',Auth::user()->admin_id)->get();
+        return view('Admin_asstes.sensor_list2',compact('sensors'));
+    }
+    function disabled_sensors(){
+        $userid = Auth::user()->id;
+
+        $sens  = Sensor::where('user_id', $userid)->orWhere('user_id', auth::user()->admin_id)->get();
+        return view('Admin_asstes.disabled_sensors',compact('sens'));
+    }
+
+    function ablesensor($id){
+
+        $sensor=For_sensor::find($id);
+
+
+
+        $sensor->delete();
+        return back()->with('success', 'Sensor Unabled Successfully');
+
+    }
+    function unable_sensor(Request $request){
+        $sensor=For_sensor::find($request->disable_sensor);
+        $sensor->delete();
+        return back()->with('success', 'Sensor Unabled Successfully');
+
     }
 }

@@ -40,6 +40,10 @@
                         <input type="text" name="Sensor_Subnet" class="form-control mt-1" placeholder="Sensor Subnet" required>
                     </div>
                     <div class="col-md-6 col-12 pt-2">
+                        <label for=""><b>Sensor point</b></label>
+                        <input type="text" name="point" class="form-control mt-1" placeholder="Sensor SetPoint" required>
+                    </div>
+                    <div class="col-md-6 col-12 pt-2">
                         <label for=""><b>Sensor_GW</b></label>
                         <input type="text" name="Sensor_GW" class="form-control mt-1" placeholder="Sensor_GW" required>
                     </div>

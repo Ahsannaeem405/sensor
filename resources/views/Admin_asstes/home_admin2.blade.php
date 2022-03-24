@@ -29,12 +29,13 @@
 
                 <div style="margin-bottom:20px" class="dropdown">
                     <div class="row">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
-                                Disabled Sensors
-                              </button>
+                         <div class="col-12">
                             {{-- <a href="{{url('admin/disabled_sensors')}}" class="btn btn-primary float-right">Disabled Sensors</a> --}}
+                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+                            Disabled Sensors
+                          </button>
                         </div>
+
                     </div>
 
                     <form method="POST" action="{{ url('admin/view/temp') }}">
@@ -216,49 +217,48 @@
 
     </section>
     <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Disable Sensor</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="{{url('admin/unable_sensor')}}" method="post">
-@csrf
-
-            @if (isset($sens->Sensorr2))
-            <div class="col-12 text-center">
-
-                <h5>No Disabled Sensor Found </h5>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Disable Sensor</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            @else
-            <select name="disable_sensor" class="form-control" id="">
+            <div class="modal-body">
+                <form action="{{url('admin/unable_sensor')}}" method="post">
+    @csrf
 
-                @foreach ($sens as $sensor)
+                @if (isset($sens->Sensorr2))
+                <div class="col-12 text-center">
 
-                @if (isset($sensor->Sensorr2))
-                <option value="{{$sensor->Sensorr2->id}}">{{$sensor->Sensor_Location}}</option>
+                    <h5>No Disabled Sensor Found </h5>
+                </div>
+                @else
+                <select name="disable_sensor" class="form-control" id="">
 
+                    @foreach ($sens as $sensor)
+
+                    @if (isset($sensor->Sensorr2))
+                    <option value="{{$sensor->Sensorr2->id}}">{{$sensor->Sensor_Location}}</option>
+
+                    @endif
+
+                    @endforeach
+
+                </select>
                 @endif
 
-                @endforeach
 
-            </select>
-            @endif
-
-
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Unable Sensor</button>
+            </div>
+        </form>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Unable Sensor</button>
-        </div>
-    </form>
       </div>
-    </div>
-  </div>
-
 
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
