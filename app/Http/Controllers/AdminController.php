@@ -398,8 +398,8 @@ class AdminController extends Controller
 
     public function chart()
     {
-
-        return view('Admin_asstes.chart');
+        $sensors=Sensor::all();
+        return view('Admin_asstes.chart',compact('sensors'));
     }
 
     public function view_temp(Request $request)

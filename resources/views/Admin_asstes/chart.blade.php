@@ -341,12 +341,6 @@
                 chart.render();
             }
 
-        }
-    </script>
-
-
-    <script>
-        window.onload = function() {
 
             var chart1 = new CanvasJS.Chart("chartContainers", {
                 animationEnabled: true,
@@ -419,5 +413,10 @@
             }
 
         }
+    </script>
+
+
+    <script>
+
     </script>
 @endsection
