@@ -473,4 +473,16 @@ class AdminController extends Controller
         return back()->with('success', 'Sensor Unabled Successfully');
 
     }
+    function sensor_search(){
+        $sensors=Sensor::all();
+
+        return view('Admin_asstes.sensor_search',compact('sensors'));
+    }
+    function search_sensor(Request $request){
+        $sensors=Sensor::all();
+        $start=$request->start_date;
+        $end=$request->end_date;
+        $sensor_list=Sensor_detail::where('created_at','>=',$request->start_date)->where('created_at','<=',$request->end_date)->where('sensor_id',$request->sensor)->get();
+        return view('Admin_asstes.sensor_search',compact('sensor_list','sensors','start','end'));
+    }
 }
