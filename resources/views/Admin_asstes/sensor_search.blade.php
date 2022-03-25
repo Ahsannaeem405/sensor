@@ -51,14 +51,14 @@
                     </div>
                     <div class="col-md-4 col-12 pt-2">
                         <div class="input-daterange">
-                            <input type="text" name="start_date" id="start_date" class="form-control" @if (isset($start))
+                            <input type="text" name="start_date" id="start_date" autocomplete="off" class="form-control" @if (isset($start))
                                value="{{$start}}"
                             @endif required>
                         </div>
                     </div>
                     <div class="col-md-4 col-12 pt-2 d-flex justify-content-between">
                         <div class="input-daterange">
-                            <input type="text" name="end_date" id="end_date" class="form-control"  @if (isset($end))
+                            <input type="text" name="end_date" id="end_date" class="form-control" autocomplete="off"  @if (isset($end))
                             value="{{$end}}"
                          @endif required>
                         </div>
