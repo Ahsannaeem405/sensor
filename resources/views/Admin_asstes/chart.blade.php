@@ -240,11 +240,14 @@
                 toolTip: {
                     shared: true
                 },
-                data: [{
-
+                data: [
                     @foreach ($sens as $sensor)
-
                     @if (isset($sensor->Sensorr_chart))
+                {
+
+
+
+
                     name: "<?php echo $sensor->Sensor_Location; ?>",
                         type: "spline",
                         yValueFormatString: "#0.## °C",
@@ -259,7 +262,7 @@
 
                                 x: new Date(<?php
 
-                                    echo $sensors1->created_at->format('Y-m-d');
+                                    echo $sensors1->created_at->format('Y,m,d');
                                     ?>),
 
 
@@ -296,11 +299,12 @@
                             //     y: 29
                             // }
                         ],
-                    @endif
 
-                        @endforeach
+
+
                     },
-
+                      @endif
+                    @endforeach
 
 
                 ]
