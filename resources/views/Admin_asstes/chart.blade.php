@@ -3,7 +3,7 @@
 @section('content')
     <section id="dashboard-ecommerce">
 
-
+{{-- @dd($sens[0]->Sensorr_chart); --}}
         <div class="card">
             @if (session()->has('success'))
                 <div class="alert alert-success alert-dismissible">
@@ -20,53 +20,58 @@
             </div>
 
             <div class="row">
+                <div class="col-12">
+                    <form action="{{url('admin/chart_search')}}" method="post">
+                        @csrf
+                    <div class="row p-3">
 
+                        <div class="col-md-4 col-12 pt-2">
+                            <div class="dropdown" style="display: inline-block;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    style="background: #275fa8;" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Temprature
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @foreach ($sensors as $sensor)
+                                        <a class="dropdown-item" href="#">
 
-                <div class="col-12 col-md-2">
+                                            @if (isset($sensor->Sensorr) && $sensor->Sensorr->tick == 1)
+                                                <input type="hidden" value="{{ $sensor->id }}" name="sens_id[]" id="">
+                                            @endif
+                                            <input type="checkbox" @if (isset($sensor->Sensorr) && $sensor->Sensorr->tick == 1) checked @endif
+                                                value="{{ $sensor->id }}" name="senID[]" id="">
 
+                                            {{ $sensor->Sensor_Location }}
 
-                    <div id="chart" class="input-group mb-3" style="bottom: 400px; position:inherit">
-                        <div style="margin-bottom:20px" class="dropdown">
-                            <button class="dropbtn">
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12 pt-2">
+                            <div class="input-daterange">
+                                <input type="text" name="start_date" id="start_date" autocomplete="off" class="form-control" @if (isset($start))
+                                   value="{{$start}}"
+                                @endif required>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12 pt-2 d-flex justify-content-between">
+                            <div class="input-daterange">
+                                <input type="text" name="end_date" id="end_date" class="form-control" autocomplete="off"  @if (isset($end))
+                                value="{{$end}}"
+                             @endif required>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" type="submit">Submit</button>
 
-                                {{ 'Temprature' }}
-
-                            </button>
-                            <div class="dropdown-content drop" style="    max-height: 250px !important;overflow: auto;">
-                                <form method="POST">
-
-
-                                </form>
+                            </div>
                             </div>
 
-
-
-                        </div>
                     </div>
-
-
-                </div>
-
-                <div class="col-md-3">
-                    <div class="input-daterange">
-
-
-                        <input type="date" name="start_date" id="start_date" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="input-daterange">
-                        <input type="date" name="end_date" id="end_date" class="form-control" />
-                    </div>
-                </div>
-
-
-                <div class="col-md-3">
-                    <input type="submit" name="char" id="sub" value="Submit">
-                </div>
-
                 </form>
+                </div>
+
             </div>
 
 
@@ -153,19 +158,30 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <select name="" id="">
-                                                                <option value="">Select Sensor</option>
-                                                                <option value="">Select Sensor</option>
+                                                            <form action="{{url('admin/unable_sensor')}}" method="post">
+                                                            @csrf
+
+                                                            @if (isset($sens))
+
+                                                            <select name="disable_sensor" class="form-control">
+                                                             @foreach ($sens as $sensors)
+                                                                 @if (isset($sensors->Sensorr2))
+                                                                 <option value="{{$sensors->Sensorr2->id}}">{{$sensor->Sensor_Location}}</option>
+                                                                 @endif
+                                                             @endforeach
+
+
                                                             </select>
-                                                            <input type="submit" id="sub" name="update" value="update">
+                                                            @endif
+
+
 
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Save
-                                                                changes</button>
+
+                                                            <button type="submit" class="btn btn-primary">Update</button>
                                                         </div>
+                                                    </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -193,7 +209,7 @@
 
 
             </div>
-
+        {{-- @dd($sensor->Sensorr_chart); --}}
     </section>
 
 
@@ -203,17 +219,18 @@
     <script>
         window.onload = function() {
 
+
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 title: {
-                    text: "Daily High Temperature at Different Beaches"
+                    text: "Climate Monitoring Chart (IDF)"
                 },
                 axisX: {
                     valueFormatString: "DD MMM,YY"
                 },
                 axisY: {
-                    title: "Temperature (in °C)",
-                    suffix: " °C"
+                    title: "Climate Monitoring Chart",
+                    suffix: ""
                 },
                 legend: {
                     cursor: "pointer",
@@ -224,110 +241,68 @@
                     shared: true
                 },
                 data: [{
-                        name: "Myrtle Beach",
+
+                    @foreach ($sens as $sensor)
+
+                    @if (isset($sensor->Sensorr_chart))
+                    name: "<?php echo $sensor->Sensor_Location; ?>",
                         type: "spline",
                         yValueFormatString: "#0.## °C",
                         showInLegend: true,
-                        dataPoints: [{
-                                x: new Date(2017, 6, 24),
-                                y: 31
-                            },
+
+
+
+                        dataPoints: [
+                            @foreach ($sensor->sensorDetail3 as $sensors1)
                             {
-                                x: new Date(2017, 6, 25),
-                                y: 31
+                                // x: new Date(2017, 6, 24),
+
+                                x: new Date(<?php
+
+                                    echo $sensors1->created_at->format('Y-m-d');
+                                    ?>),
+
+
+
+                                y: <?php
+
+                                    echo $sensors1->temp;
+                                    ?>
                             },
-                            {
-                                x: new Date(2017, 6, 26),
-                                y: 29
-                            },
-                            {
-                                x: new Date(2017, 6, 27),
-                                y: 29
-                            },
-                            {
-                                x: new Date(2017, 6, 28),
-                                y: 31
-                            },
-                            {
-                                x: new Date(2017, 6, 29),
-                                y: 30
-                            },
-                            {
-                                x: new Date(2017, 6, 30),
-                                y: 29
-                            }
-                        ]
+                            @endforeach
+
+                            // {
+                            //     x: new Date(2017, 6, 25),
+                            //     y: 31
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 26),
+                            //     y: 29
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 27),
+                            //     y: 29
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 28),
+                            //     y: 31
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 29),
+                            //     y: 30
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 30),
+                            //     y: 29
+                            // }
+                        ],
+                    @endif
+
+                        @endforeach
                     },
-                    {
-                        name: "Martha Vineyard",
-                        type: "spline",
-                        yValueFormatString: "#0.## °C",
-                        showInLegend: true,
-                        dataPoints: [{
-                                x: new Date(2017, 6, 24),
-                                y: 20
-                            },
-                            {
-                                x: new Date(2017, 6, 25),
-                                y: 20
-                            },
-                            {
-                                x: new Date(2017, 6, 26),
-                                y: 25
-                            },
-                            {
-                                x: new Date(2017, 6, 27),
-                                y: 25
-                            },
-                            {
-                                x: new Date(2017, 6, 28),
-                                y: 25
-                            },
-                            {
-                                x: new Date(2017, 6, 29),
-                                y: 25
-                            },
-                            {
-                                x: new Date(2017, 6, 30),
-                                y: 25
-                            }
-                        ]
-                    },
-                    {
-                        name: "Nantucket",
-                        type: "spline",
-                        yValueFormatString: "#0.## °C",
-                        showInLegend: true,
-                        dataPoints: [{
-                                x: new Date(2017, 6, 24),
-                                y: 22
-                            },
-                            {
-                                x: new Date(2017, 6, 25),
-                                y: 19
-                            },
-                            {
-                                x: new Date(2017, 6, 26),
-                                y: 23
-                            },
-                            {
-                                x: new Date(2017, 6, 27),
-                                y: 24
-                            },
-                            {
-                                x: new Date(2017, 6, 28),
-                                y: 24
-                            },
-                            {
-                                x: new Date(2017, 6, 29),
-                                y: 23
-                            },
-                            {
-                                x: new Date(2017, 6, 30),
-                                y: 23
-                            }
-                        ]
-                    }
+
+
+
                 ]
             });
             chart.render();
@@ -365,6 +340,7 @@
                 data: [
 
                     {
+
                         name: "Nantucket",
                         type: "spline",
                         yValueFormatString: "#0.## °C",
@@ -416,7 +392,59 @@
     </script>
 
 
-    <script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
 
-    </script>
+
+        $('.input-daterange').datepicker({
+
+
+
+            todayBtn: 'linked',
+            format: "yyyy-mm-dd",
+            autoclose: true
+        });
+
+
+
+
+
+        // $('#search').click(function() {
+
+
+        //     var start_date = $('#start_date').val();
+        //     var end_date = $('#end_date').val();
+
+        //     var mytableselect = $('#mytableselect').val();
+
+        //     $.ajax({
+        //         type: 'post',
+        //         url: 'fetchdata.php',
+
+        //         data: {
+        //             'start_date': start_date,
+        //             'end_date': end_date,
+        //             'mytableselect': mytableselect
+        //         },
+
+
+
+        //         success: function(data) {
+
+
+        //             $('#attach').empty();
+        //             console.log(data);
+
+        //             $('#attach').append(data);
+
+
+
+        //         },
+
+
+        //     });
+        // });
+    });
+</script>
 @endsection

@@ -66,6 +66,7 @@ Route::prefix('/admin')->middleware(['admin','auth'])->group(function(){
 
     Route::get('sensor_search',[AdminController::class,'sensor_search']);
     Route::post('search_sensor',[AdminController::class,'search_sensor']);
+    Route::post('chart_search',[AdminController::class,'chart_search']);
 
 
 

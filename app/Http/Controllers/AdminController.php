@@ -399,7 +399,8 @@ class AdminController extends Controller
     public function chart()
     {
         $sensors=Sensor::all();
-        return view('Admin_asstes.chart',compact('sensors'));
+        $sens  = Sensor::where('user_id', auth::user()->id)->orWhere('user_id', auth::user()->admin_id)->get();
+        return view('Admin_asstes.chart',compact('sensors','sens'));
     }
 
     public function view_temp(Request $request)
@@ -484,5 +485,29 @@ class AdminController extends Controller
         $end=$request->end_date;
         $sensor_list=Sensor_detail::where('created_at','>=',$request->start_date)->where('created_at','<=',$request->end_date)->where('sensor_id',$request->sensor)->get();
         return view('Admin_asstes.sensor_search',compact('sensor_list','sensors','start','end'));
+    }
+    function chart_search(Request $request){
+        $sensor = For_sensor::where('userID', Auth::user()->id)->where('act', 'chart')->get();
+        foreach ($sensor  as   $sensors) {
+            $sensors->delete();
+        }
+
+        if(isset($request->senID))
+    {
+
+
+        for ($i = 0; $i < count($request->senID); $i++) {
+
+
+            $sensor = new For_sensor();
+            $sensor->sens_id = $request->senID[$i];
+            $sensor->tick = 1;
+            $sensor->userID = Auth::user()->id;
+            $sensor->act = 'chart';
+            $sensor->save();
+        }
+    }
+
+        return back()->with('success', 'Sensor Add Successfully');
     }
 }

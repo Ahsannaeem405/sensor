@@ -20,6 +20,10 @@ class Sensor extends Model
     {
         return $this->hasOne('App\Models\Sensor_detail', 'sensor_id')->latest();
     }
+    public function sensorDetail3()
+    {
+        return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->orderBy('id', 'DESC')->take(5);
+    }
 
     // public function Detail()
     // {
@@ -29,6 +33,11 @@ class Sensor extends Model
     public function Sensorr()
     {
         return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('tick', 1)->where('act', 'home');
+    }
+
+    public function Sensorr_chart()
+    {
+        return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('tick', 1)->where('act', 'chart');
     }
 
     public function Sensorr2()
