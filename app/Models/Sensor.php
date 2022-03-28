@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Session;
+
 
 class Sensor extends Model
 {
@@ -23,6 +26,25 @@ class Sensor extends Model
     public function sensorDetail3()
     {
         return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->orderBy('id', 'DESC')->take(5);
+    }
+
+    public function sensorDetail4($id)
+    {
+
+        $number=session::get('number_'.$id.'');
+
+        if($number==null)
+        {
+         $number=60;
+        }
+        // dd($number);
+
+
+        return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->where('created_at', '>=', Carbon::now()->subMinutes(intval($number))->toDateTimeString());
+        // dd($test);
+
+        // return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->whereRaw('created_at >= now() - interval 60 minute');
+
     }
 
     // public function Detail()
@@ -44,6 +66,11 @@ class Sensor extends Model
     {
         return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('act','disable');
     }
+    public function Sensorr3()
+    {
+        return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('act','disable2');
+    }
+
     public function UserSensor()
     {
         return $this->belongsTo('App\Models\User_senor' , 'id', 'sensor_id')->where('user_id', Auth::user()->id)->where('type', 'homee');

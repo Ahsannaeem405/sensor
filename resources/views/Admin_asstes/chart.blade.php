@@ -88,33 +88,40 @@
 
                                     <div class="container-fluid">
                                         <div class="row">
+                                            @foreach ($sens as $sensors )
+                                                @if (!isset($sensors->sensorr3))
 
-                                            <div class="col-md-6 col-12">
-                                                <div class="white-box shadow p-2">
 
-                                                    <div style="    margin: auto;text-align: end;">
-                                                        <form method="post" action="" id="" style="    text-align: start;">
-                                                            <input type="hidden" name="rec_id" value="">
-                                                            <input type="number" style="    width: 35%;    height: 33px;"
-                                                                min="5" max="60" class="numb" name="numb"
-                                                                placeholder="Enter Minutes" id="">
-                                                            <input type="submit" name="gethours" class="btn btn-primary"
-                                                                value="Search">
-                                                        </form>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="white-box shadow p-2">
 
-                                                        <div style="display: inline-block;text-align: end;">
+                                                        <div style="margin: auto;text-align: end;">
+                                                            <form method="post" action="{{url('admin/sortby_minutes')}}" id="" style="    text-align: start;">
+                                                                @csrf
+                                                                <input type="hidden" name="rec_id" value="{{$sensors->id}}">
+                                                                <input type="number" style="width: 35%;    height: 33px;"
+                                                                    min="5" max="60" class="numb" name="numb"
+                                                                    placeholder="Enter Minutes" id="">
+                                                                <input type="submit" name="gethours" class="btn btn-primary"
+                                                                    value="Search">
+                                                            </form>
 
-                                                            <i style="font-size:18px;display: inline-block; "
-                                                                class="far fa-trash-alt second_div_icon alert-confirm"
-                                                                onclick="  "></i>
+                                                            <div style="display: inline-block;text-align: end;">
+                                                                <a href="{{url('admin/dissable_chart/'.$sensor->id)}}">
+                                                                <i style="font-size:18px;display: inline-block; "
+                                                                    class="far fa-trash-alt second_div_icon "></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div id="chartContainers{{$sensors->id}}" style="height: 300px; width: 100%;"></div>
+
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        <div id="chartContainers" style="height: 300px; width: 100%;"></div>
-
-                                                    </div>
                                                 </div>
-                                            </div>
+                                                @endif
+                                            @endforeach
+
 
 
 
@@ -165,8 +172,8 @@
 
                                                             <select name="disable_sensor" class="form-control">
                                                              @foreach ($sens as $sensors)
-                                                                 @if (isset($sensors->Sensorr2))
-                                                                 <option value="{{$sensors->Sensorr2->id}}">{{$sensor->Sensor_Location}}</option>
+                                                                 @if (isset($sensors->Sensorr3))
+                                                                 <option value="{{$sensors->Sensorr3->id}}">{{$sensor->Sensor_Location}}</option>
                                                                  @endif
                                                              @endforeach
 
@@ -320,17 +327,18 @@
                 chart.render();
             }
 
-
-            var chart1 = new CanvasJS.Chart("chartContainers", {
+            @foreach ($sens as $sensor)
+            @if (!isset($sensor->Sensorr3))
+            var chart<?php echo $sensor->id ?> = new CanvasJS.Chart("chartContainers"+{{$sensor->id}}, {
                 animationEnabled: true,
                 title: {
-                    text: "Daily High Temperature at Different Beaches"
+                    text: "{{ $sensor->Sensor_Location}}"
                 },
                 axisX: {
                     valueFormatString: "DD MMM,YY"
                 },
                 axisY: {
-                    title: "Temperature (in °C)",
+                    title: "{{ $sensor->Sensor_Location}}",
                     suffix: " °C"
                 },
                 legend: {
@@ -345,43 +353,56 @@
 
                     {
 
-                        name: "Nantucket",
+                        name: "{{$sensor->Sensor_Location}}",
                         type: "spline",
                         yValueFormatString: "#0.## °C",
                         showInLegend: true,
-                        dataPoints: [{
-                                x: new Date(2017, 6, 24),
-                                y: 22
-                            },
+                        dataPoints: [
+                            @foreach ($sensor->sensorDetail4($sensor->id) as $sensors1)
+
                             {
-                                x: new Date(2017, 6, 25),
-                                y: 19
+                                x: new Date(<?php
+
+echo $sensors1->created_at->format('Y,m,d');
+?>),
+                                y: {{$sensors1->temp}}
                             },
-                            {
-                                x: new Date(2017, 6, 26),
-                                y: 23
-                            },
-                            {
-                                x: new Date(2017, 6, 27),
-                                y: 24
-                            },
-                            {
-                                x: new Date(2017, 6, 28),
-                                y: 24
-                            },
-                            {
-                                x: new Date(2017, 6, 29),
-                                y: 23
-                            },
-                            {
-                                x: new Date(2017, 6, 30),
-                                y: 23
-                            }
+                            @endforeach
+                        // {
+                        //         x: new Date(2017, 6, 24),
+                        //         y: 22
+                        //     },
+                            // {
+                            //     x: new Date(2017, 6, 25),
+                            //     y: 19
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 26),
+                            //     y: 23
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 27),
+                            //     y: 24
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 28),
+                            //     y: 24
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 29),
+                            //     y: 23
+                            // },
+                            // {
+                            //     x: new Date(2017, 6, 30),
+                            //     y: 23
+                            // }
                         ]
                     }
                 ]
             });
-            chart1.render();
+            chart<?php echo $sensor->id ?>.render();
+            @endif
+            @endforeach
 
             function toggleDataSeries(e) {
                 if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {

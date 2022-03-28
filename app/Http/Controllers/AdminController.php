@@ -510,4 +510,26 @@ class AdminController extends Controller
 
         return back()->with('success', 'Sensor Add Successfully');
     }
+    function dissable_chart($id){
+        $sensor=new For_sensor();
+        $sensor->userID=Auth::user()->id;
+        $sensor->sens_id=$id;
+        $sensor->act="disable2";
+
+
+        $sensor->save();
+        return back()->with('success', 'Sensor Disabled Successfully');
+    }
+    function sortby_minutes(Request $request){
+        $sensor_id=$request->rec_id;
+        $number=$request->numb;
+       // $request->session()->put('sensor_id', $sensor_id);
+        $request->session()->put('number_'.$sensor_id.'', $number);
+        return back()->with('success', 'Sorted Results');
+
+
+
+
+
+    }
 }
