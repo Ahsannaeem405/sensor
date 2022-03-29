@@ -49,21 +49,21 @@ class Sensor extends Model
 
     public function Sensorr()
     {
-        return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('tick', 1)->where('act', 'home');
+        return $this->belongsTo('App\Models\For_sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('tick', 1)->where('act', 'home');
     }
 
     public function Sensorr_chart()
     {
-        return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('tick', 1)->where('act', 'chart');
+        return $this->belongsTo('App\Models\For_sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('tick', 1)->where('act', 'chart');
     }
 
     public function Sensorr2()
     {
-        return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('act','disable');
+        return $this->belongsTo('App\Models\For_sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('act','disable');
     }
     public function Sensorr3()
     {
-        return $this->belongsTo('App\Models\For_Sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('act','disable2');
+        return $this->belongsTo('App\Models\For_sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('act','disable2');
     }
 
     public function UserSensor()
