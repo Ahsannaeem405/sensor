@@ -170,7 +170,7 @@
 
                                                             @if (isset($sens))
 
-                                                            <select name="disable_sensor" class="form-control">
+                                                            <select name="disable_sensor" class="form-control" required>
                                                              @foreach ($sens as $sensors)
                                                                  @if (isset($sensors->Sensorr3))
                                                                  <option value="{{$sensors->Sensorr3->id}}">{{$sensor->Sensor_Location}}</option>
@@ -328,6 +328,11 @@
             }
 
             @foreach ($sens as $sensor)
+            @php
+                //$senser_id=$sensor->id;
+               //  $var= ($sensor->sensorDetail4($senser_id));
+              //   dd($var);
+            @endphp
             @if (!isset($sensor->Sensorr3))
             var chart<?php echo $sensor->id ?> = new CanvasJS.Chart("chartContainers"+{{$sensor->id}}, {
                 animationEnabled: true,

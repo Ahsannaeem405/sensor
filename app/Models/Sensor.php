@@ -32,18 +32,13 @@ class Sensor extends Model
     {
 
         $number=session::get('number_'.$id.'');
-
         if($number==null)
         {
          $number=60;
         }
-        // dd($number);
 
 
-        return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->where('created_at', '>=', Carbon::now()->subMinutes(intval($number))->toDateTimeString());
-        // dd($test);
-
-        // return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->whereRaw('created_at >= now() - interval 60 minute');
+       return Sensor_detail::where('sensor_id',$id)->where('created_at', '>=', Carbon::now()->subMinutes($number)->toDateTimeString())->get();
 
     }
 

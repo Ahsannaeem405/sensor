@@ -235,7 +235,7 @@
                 <h5>No Disabled Sensor Found </h5>
             </div>
             @else
-            <select name="disable_sensor" class="form-control" id="">
+            <select name="disable_sensor" class="form-control" id="" required>
 
                 @foreach ($sens as $sensor)
 
