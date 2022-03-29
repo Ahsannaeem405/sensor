@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -488,6 +490,17 @@ class AdminController extends Controller
     }
     function chart_search(Request $request){
         $sensor = For_sensor::where('userID', Auth::user()->id)->where('act', 'chart')->get();
+        if ($request->start_date==null && $request->end_date) {
+            Session::forget('start_date');
+            Session::forget('end_date');
+
+        }
+        else {
+            $request->session()->put('start', $request->start_date);
+            $request->session()->put('end', $request->end_date);
+        }
+
+
         foreach ($sensor  as   $sensors) {
             $sensors->delete();
         }

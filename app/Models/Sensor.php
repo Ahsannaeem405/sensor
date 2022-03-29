@@ -25,7 +25,15 @@ class Sensor extends Model
     }
     public function sensorDetail3()
     {
-        return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->orderBy('id', 'DESC')->take(5);
+        $start=session::get('start');
+        $end=session::get('end');
+        if ($start!=null && $end !=null) {
+            return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->where('created_at','>=',$start)->where('created_at','<=',$end)->orderBy('id', 'DESC')->take(5);
+        }
+        else {
+            return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->orderBy('id', 'DESC')->take(5);
+        }
+
     }
 
     public function sensorDetail4($id)
@@ -54,6 +62,7 @@ class Sensor extends Model
 
     public function Sensorr_chart()
     {
+
         return $this->belongsTo('App\Models\For_sensor' , 'id', 'sens_id')->where('userID', Auth::user()->id)->where('tick', 1)->where('act', 'chart');
     }
 
