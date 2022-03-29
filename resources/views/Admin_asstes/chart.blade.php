@@ -21,7 +21,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <form action="{{url('admin/chart_search')}}" method="post">
+                    <form action="{{url('admin/chart_search')}}" id="form" method="post">
                         @csrf
                     <div class="row p-3">
 
@@ -222,7 +222,20 @@
 
 
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+      var start=  $('#start_date').val();
+      var end=  $('#end_date').val();
+      if (start==null || end==null) {
+        $("#form").submit(function(e){
+            stopEvent(e);
+    });
+      }
 
+
+    });
+    </script>
     <script>
         window.onload = function() {
 
@@ -477,4 +490,5 @@ echo $sensors1->created_at->format('Y,m,d');
         // });
     });
 </script>
+
 @endsection
