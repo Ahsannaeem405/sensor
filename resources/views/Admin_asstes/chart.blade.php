@@ -21,11 +21,11 @@
 
             <div class="row">
                 <div class="col-12">
-                    <form action="{{url('admin/chart_search')}}" id="form" method="post">
+                    <form action="{{url('admin/chart_search')}}" id="form1" method="POST">
                         @csrf
                     <div class="row p-3">
 
-                        <div class="col-md-4 col-12 pt-2">
+                        <div class="col-md-3 col-12 pt-2">
                             <div class="dropdown" style="display: inline-block;">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                     style="background: #275fa8;" data-toggle="dropdown" aria-haspopup="true"
@@ -49,24 +49,35 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12 pt-2">
+                        <div class="col-md-3 col-12 pt-2">
                             <div class="input-daterange">
-                                <input type="text" name="start_date" id="start_date" autocomplete="off" class="form-control" @if (isset($start))
-                                   value="{{$start}}"
-                                @endif >
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12 pt-2 d-flex justify-content-between">
-                            <div class="input-daterange">
-                                <input type="text" name="end_date" id="end_date" class="form-control" autocomplete="off"  @if (isset($end))
-                                value="{{$end}}"
-                             @endif >
-                            </div>
-                            <div>
-                                <button class="btn btn-primary" type="submit">Submit</button>
+                                <input type="text" name="start_date" id="start_date" autocomplete="off" class="form-control"value="{{old('start_date')}}">
 
                             </div>
+
+                        @if ($errors->has('start_date'))
+            <span class="text-danger">{{ $errors->first('start_date') }}</span>
+            @endif
+                        </div>
+                        <div class="col-md-3 col-12 pt-2">
+                            <div class="input-daterange">
+                                <input type="text" name="end_date" id="end_date" class="form-control" autocomplete="off" value="{{old('end_date')}}">
+
                             </div>
+                            @if ($errors->has('end_date'))
+                            <span class="text-danger">{{ $errors->first('end_date') }}</span>
+                            @endif
+
+                            {{-- <div>
+                                <button class="btn btn-primary" type="submit">Submit</button>
+
+                            </div> --}}
+                            </div>
+                            <div class="col-md-3 col-12 pt-2">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </div>
+
+
 
                     </div>
                 </form>
@@ -223,19 +234,40 @@
 
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-      var start=  $('#start_date').val();
-      var end=  $('#end_date').val();
-      if (start==null || end==null) {
-        $("#form").submit(function(e){
-            stopEvent(e);
-    });
-      }
+    {{-- <script>
 
 
-    });
-    </script>
+    $(document).ready(function() {
+        $(".error").remove();
+
+$('#form1').submit(function(e) {
+  e.preventDefault();
+
+  var start = $('#start_date').val();
+  var end = $('#end_date').val();
+
+if (start.length < 1 && end.length < 1) {
+
+
+
+
+}
+else{
+    if (start.length < 1) {
+    $('#start_date').after('<span class="error">This field is required</span>');
+
+  }
+    if (end.length < 1) {
+    $('#end_date').after('<span class="error">This field is required</span>');
+  }
+}
+
+
+$('#form1').submit();
+});
+
+});
+    </script> --}}
     <script>
         window.onload = function() {
 

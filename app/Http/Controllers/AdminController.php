@@ -490,12 +490,17 @@ class AdminController extends Controller
     }
     function chart_search(Request $request){
         $sensor = For_sensor::where('userID', Auth::user()->id)->where('act', 'chart')->get();
-        if ($request->start_date==null && $request->end_date) {
+        if ($request->start_date==null && $request->end_date==null) {
+
             Session::forget('start_date');
             Session::forget('end_date');
 
         }
         else {
+            $validated = $request->validate([
+                'start_date' => 'required',
+                'end_date' => 'required',
+            ]);
             $request->session()->put('start', $request->start_date);
             $request->session()->put('end', $request->end_date);
         }
