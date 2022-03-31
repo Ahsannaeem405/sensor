@@ -27,7 +27,10 @@ return [
     | each available type of connection are provided inside this array.
     |
     */
-
+    'options' => [
+        'cluster' => 'us3',
+        'useTLS' => true
+      ],
     'connections' => [
 
         'pusher' => [

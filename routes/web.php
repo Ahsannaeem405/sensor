@@ -18,6 +18,9 @@ use App\Http\Controllers\AdminController;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('/test', function () {
+    return view('test');
+});
 
 Route::get('/logout',[App\Http\Controllers\HomeController::class, 'logout']);
 Route::prefix('/admin')->middleware(['admin','auth'])->group(function(){
