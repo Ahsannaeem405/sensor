@@ -49,7 +49,7 @@
                         </select>
 
                     </div>
-                    <div class="col-md-6 col-12 pt-2">
+                    <div class="col-md-6 col-12 pt-2 d-none">
                         <label for=""><b>Search_time</b></label>
                         <input type="number" value="60" class="form-control" name="search_time" min="1" max="60">
                     </div>
