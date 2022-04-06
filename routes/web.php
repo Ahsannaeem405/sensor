@@ -53,6 +53,11 @@ Route::prefix('/admin')->middleware(['admin','auth'])->group(function(){
     Route::get('editsensor_detail/{id}',[AdminController::class,'editsensor_detail']);
     Route::post('updatesensordetail',[AdminController::class,'updatesensordetail']);
     Route::get('basictoday',[AdminController::class,'home_admin']);
+
+    Route::get('last_senser/{senser_id}',[AdminController::class,'getting_last_serser']);
+
+
+
     Route::get('basictoday2',[AdminController::class,'basictoday2']);
     Route::get('chart',[AdminController::class,'chart']);
 

@@ -92,16 +92,16 @@
 
 
                                     <div class="container-fluid">
-                                        <div class="row">
+                                        <div class="row" >
 
 
                                             @foreach ($sens as $sensor)
                                                 {{-- @dd($sensor->Alarm) --}}
 
                                                 {{-- @if($sensor->act == 1) --}}
-                                                @if (!isset($sensor->Sensorr2))
+                                                @if (!isset($sensor->Sensorr2) && isset($sensor->sensorDetail2->temp))
 
-                                                    <div class="col-md-6 col-12">
+                                                    <div class="col-md-6 col-12" id="serser_show{{$sensor->id}}">
                                                         <div class="white-box shadow p-2">
                                                             <div class="row">
                                                                 <div class="col-md-3 col-6">
@@ -160,12 +160,13 @@
                                                                         °C</label>
                                                                 </div>
                                                                 <div class="col-md-3 col-6 pt-2">
-                                                                    @if ($sensor->Sensor_Status=="OFFLINE")
+
+                                                                    @if ($sensor->sensorDetail2->status=="OFFLINE")
                                                                         <lable style="
                                                             padding: 5px;
                                                         border-radius: 10px; color: red; border: 1px solid red;">
                                                                             <span
-                                                                                id="stat8">{{$sensor->Sensor_Status}}</span>
+                                                                                id="stat8">{{$sensor->sensorDetail2->status}}</span>
 
                                                                         </lable>
                                                                     @else
@@ -173,7 +174,7 @@
                                                         padding: 5px;
                                                     border-radius: 10px; color: green; border: 1px solid green;">
                                                                             <span
-                                                                                id="stat8">{{$sensor->Sensor_Status}}</span>
+                                                                                id="stat8">{{$sensor->sensorDetail2->status}}</span>
 
                                                                         </lable>
                                                                     @endif
@@ -256,6 +257,39 @@
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     <script>
+
+
+
+
+
+var i=1;
+
+  var ar=new Array();
+    @foreach ($sens as $sensor)
+        @if (isset($sensor->Sensorr))
+
+
+      ar[i]={
+          
+          
+          "y":"<?php echo $sensor->Sensorr->Detail->temp; ?>",
+          "lable":"<?php echo $sensor->Sensor_Location; ?>"
+      
+
+      };
+     
+      var i=i+1;
+
+        @endif
+    @endforeach
+
+alert(ar[1]['lable']);
+console.log(ar[1]);
+
+
+
+
+
         window.onload = function () {
 
             var chart = new CanvasJS.Chart("chartContainer", {
@@ -273,19 +307,7 @@
                     legendMarkerColor: "grey",
                     legendText: "IDF Rooms",
                     dataPoints: [
-
-                            @foreach ($sens as $sensor)
-                            @if (isset($sensor->Sensorr))
-                        {
-                            y: <?php
-
-                            echo $sensor->Sensorr->Detail->temp;
-                            ?>,
-                            label: "<?php echo $sensor->Sensor_Location; ?>"
-                        },
-                        @endif
-                        @endforeach
-
+                     ar,
                     ]
                 }]
             });
@@ -311,6 +333,13 @@
             if(($('.sensorData'+sensor_id).length)==1)
             {
                 alert('find');
+                $.ajax({
+                    type: "get",
+                    url: "{{ url('admin/last_senser/') }}" + '/' + sensor_id,
+                    success: function (data) {
+                        $('#serser_show'+sensor_id).empty().append(data);
+                    }
+                })
             }
 
         });

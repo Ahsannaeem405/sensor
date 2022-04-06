@@ -403,7 +403,13 @@ class AdminController extends Controller
         $sensor_detail->save();
         return redirect()->back()->with('success', 'Successfully Updated');
     }
+public function getting_last_serser($senser_id)
+{
+    $sens = Sensor::where('id', $senser_id)->get();
 
+return view('Admin_asstes.ajax_last_senser', compact('sens'));
+
+}
     function home_admin()
     {
 
