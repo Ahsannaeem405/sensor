@@ -7,6 +7,7 @@
         }
 
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <section id="dashboard-ecommerce">
 
 
@@ -253,18 +254,33 @@
         </div>
     </div>
 
+<button class="btn btn-danger" id="hh">hehehehheheheheheheheheh
+</button>
+
+
+
+
+
+
+
+
+
+
+
+
 
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     <script>
+    
+    
 
 
 
 
+var i=0;
 
-var i=1;
-
-  var ar=new Array();
+  var ar=[];
     @foreach ($sens as $sensor)
         @if (isset($sensor->Sensorr))
 
@@ -272,7 +288,7 @@ var i=1;
       ar[i]={
           
           
-          "y":"<?php echo $sensor->Sensorr->Detail->temp; ?>",
+          "y":<?php echo $sensor->Sensorr->Detail->temp; ?>,
           "lable":"<?php echo $sensor->Sensor_Location; ?>"
       
 
@@ -283,14 +299,16 @@ var i=1;
         @endif
     @endforeach
 
-alert(ar[1]['lable']);
-console.log(ar[1]);
+
 
 
 
 
 
         window.onload = function () {
+alert(ar[1]['lable']);
+console.log(ar);
+
 
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
@@ -306,15 +324,56 @@ console.log(ar[1]);
                     showInLegend: true,
                     legendMarkerColor: "grey",
                     legendText: "IDF Rooms",
-                    dataPoints: [
-                     ar,
-                    ]
+                    dataPoints: ar
                 }]
             });
             chart.render();
 
 
         }
+
+
+        $(document).ready(function () {
+
+
+            $("#hh").click(function () {
+                ar = [];
+                ar[0]={
+                        "y":27,
+                        "lable":"tttee"
+      };
+
+                alert(ar[0]['lable']);
+                console.log(ar);
+            
+            
+	
+      
+      
+
+
+
+	
+	//	chart.options.data[0].dataPoints[0] = {y:27, lable:"tototo"};
+		chart.render();    
+		
+
+
+
+
+
+
+
+
+            
+            
+            
+            });
+
+        });
+
+
+
     </script>
 {{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>--}}
 
@@ -344,4 +403,6 @@ console.log(ar[1]);
 
         });
     </script>
+
+
 @endsection
