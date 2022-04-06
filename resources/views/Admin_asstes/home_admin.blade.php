@@ -95,12 +95,18 @@
                                     <div class="container-fluid">
                                         <div class="row" >
 
-
+@if (Auth()->User()->role == "admin")
+<input type="hidden" id="u_id" value="{{Auth()->User()->id}}">    
+@else
+<input type="hidden" id="u_id" value="{{Auth()->User()->admin_id}}">    
+@endif
+                                            
                                             @foreach ($sens as $sensor)
                                                 {{-- @dd($sensor->Alarm) --}}
 
                                                 {{-- @if($sensor->act == 1) --}}
                                                 @if (!isset($sensor->Sensorr2) && isset($sensor->sensorDetail2->temp))
+                                                
 
                                                     <div class="col-md-6 col-12" id="serser_show{{$sensor->id}}">
                                                         <div class="white-box shadow p-2">
@@ -340,12 +346,13 @@ console.log(ar);
                 ar = [];
                 ar[0]={
                         "y":27,
-                        "lable":"tttee"
+                        "lable":"t"
       };
 
                 alert(ar[0]['lable']);
                 console.log(ar);
 
+		
 
 
 
@@ -353,9 +360,18 @@ console.log(ar);
 
 
 
+       var user_id= document.getElementById('u_id').value;
+alert(user_id);
+        $.ajax({
+            type: "get",
+            url: "{{ url('admin/get_all_senser/') }}" + '/' + user_id,
+            success: function (data) {
+                console.log(data);
+                chart.options.data[0].dataPoints = data;
+                chart.render();
+            }
+        })
 
-	//	chart.options.data[0].dataPoints[0] = {y:27, lable:"tototo"};
-		chart.render();
 
 
 
@@ -397,6 +413,30 @@ console.log(ar);
                     url: "{{ url('admin/last_senser/') }}" + '/' + sensor_id,
                     success: function (data) {
                         $('#serser_show'+sensor_id).empty().append(data);
+
+
+
+   var user_id= document.getElementById('u_id').value;
+alert(user_id);
+        $.ajax({
+            type: "get",
+            url: "{{ url('admin/get_all_senser/') }}" + '/' + user_id,
+            success: function (data) {
+                console.log(data);
+                chart.options.data[0].dataPoints = data;
+                chart.render();
+            }
+        })
+
+
+
+
+
+
+
+
+
+
                     }
                 })
             }

@@ -403,6 +403,24 @@ class AdminController extends Controller
         $sensor_detail->save();
         return redirect()->back()->with('success', 'Successfully Updated');
     }
+
+    public function get_all_senser($user_id){
+        $all_sens = Sensor::where('user_id', $user_id)->get();
+        
+
+        $all_ses_detail=array();
+
+        foreach ($all_sens as $each_senser) {
+
+            $all_ses_detail[] =  array("y"=>intval($each_senser->sensorDetail2->temp), "lable"=> $each_senser->Sensor_Location);
+        }
+        
+
+
+
+        return response()->json($all_ses_detail);
+    }
+
 public function getting_last_serser($senser_id)
 {
     $sens = Sensor::where('id', $senser_id)->get();
