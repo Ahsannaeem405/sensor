@@ -272,8 +272,8 @@
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     <script>
-    
-    
+
+
 
 
 
@@ -286,21 +286,21 @@ var i=0;
 
 
       ar[i]={
-          
-          
+
+
           "y":<?php echo $sensor->Sensorr->Detail->temp; ?>,
           "lable":"<?php echo $sensor->Sensor_Location; ?>"
-      
+
 
       };
-     
+
       var i=i+1;
 
         @endif
     @endforeach
 
 
-
+var chart;
 
 
 
@@ -310,7 +310,7 @@ alert(ar[1]['lable']);
 console.log(ar);
 
 
-            var chart = new CanvasJS.Chart("chartContainer", {
+             chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 theme: "light2", // "light1", "light2", "dark1", "dark2"
                 title: {
@@ -345,18 +345,17 @@ console.log(ar);
 
                 alert(ar[0]['lable']);
                 console.log(ar);
-            
-            
-	
-      
-      
 
 
 
-	
+
+
+
+
+
+
 	//	chart.options.data[0].dataPoints[0] = {y:27, lable:"tototo"};
-		chart.render();    
-		
+		chart.render();
 
 
 
@@ -365,9 +364,10 @@ console.log(ar);
 
 
 
-            
-            
-            
+
+
+
+
             });
 
         });
