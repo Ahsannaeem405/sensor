@@ -17,7 +17,7 @@
 
                                                                 </div>
                                                                 <div class="col-md-3 col-6">
-                                                                    <button class="btn btn-primary"
+                                                                    <button class="btn btn-primary pause_audio"
                                                                             style="width: 100%">Pause
                                                                     </button>
 
@@ -50,6 +50,10 @@
                                                                            style="margin: 0px;display: inline-block;">
                                                                             Temperature is
                                                                             High</p>
+
+
+
+
 
                                                                     @endif
 

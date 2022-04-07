@@ -78,6 +78,50 @@
 
         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <audio src="{{asset("image/ring.mp3")}}" audio="{{asset("image/ring.mp3")}}" class="audio" controls ></audio>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div class="card">
 
             <div class="row">
@@ -96,17 +140,17 @@
                                         <div class="row" >
 
 @if (Auth()->User()->role == "admin")
-<input type="hidden" id="u_id" value="{{Auth()->User()->id}}">    
+<input type="hidden" id="u_id" value="{{Auth()->User()->id}}">
 @else
-<input type="hidden" id="u_id" value="{{Auth()->User()->admin_id}}">    
+<input type="hidden" id="u_id" value="{{Auth()->User()->admin_id}}">
 @endif
-                                            
+
                                             @foreach ($sens as $sensor)
                                                 {{-- @dd($sensor->Alarm) --}}
 
                                                 {{-- @if($sensor->act == 1) --}}
                                                 @if (!isset($sensor->Sensorr2) && isset($sensor->sensorDetail2->temp))
-                                                
+
 
                                                     <div class="col-md-6 col-12" id="serser_show{{$sensor->id}}">
                                                         <div class="white-box shadow p-2">
@@ -121,8 +165,8 @@
 
                                                                 </div>
                                                                 <div class="col-md-3 col-6">
-                                                                    <button class="btn btn-primary"
-                                                                            style="width: 100%">Pause
+                                                                    <button class="btn btn-primary "
+ id="pause_audio"     style="width: 100%">Pause
                                                                     </button>
 
                                                                 </div>
@@ -352,8 +396,11 @@ console.log(ar);
                 alert(ar[0]['lable']);
                 console.log(ar);
 
-		
 
+                var loccc='{{asset("image/ring.mp3")}}';
+                $('audio #alm').attr('src', loccc);
+                $('audio').get(0).load();
+                $('audio').get(0).play();
 
 
 
@@ -391,7 +438,10 @@ alert(user_id);
 
 
     </script>
-{{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>--}}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
@@ -404,10 +454,39 @@ alert(user_id);
 
         var channel = pusher.subscribe('sensor');
         channel.bind('sensorEvent', function (response) {
+
+
+
+setInterval(function({
+    var obj = document.createElement('audio');
+    var audio = $('.audio').attr('audio');
+    obj.src = audio;
+    obj.play();
+}, 3000))
+
+
+
+
+
+
+            var user_id= document.getElementById('u_id').value;
+
             var sensor_id = response['sensor'].id;
+            var senser_user_id = response['sensor'].user_id;
+var a=response['sensor'].point;
+var b=response['sensorDetail'].temp;
+
+if(response['sensorDetail'].temp > response['sensor'].point){
+alert('greater');
+}
+
+
+            console.log(response['sensor'].point);
+            if(senser_user_id == user_id){
             if(($('.sensorData'+sensor_id).length)==1)
             {
-                alert('find');
+
+
                 $.ajax({
                     type: "get",
                     url: "{{ url('admin/last_senser/') }}" + '/' + sensor_id,
@@ -416,8 +495,8 @@ alert(user_id);
 
 
 
-   var user_id= document.getElementById('u_id').value;
-alert(user_id);
+
+
         $.ajax({
             type: "get",
             url: "{{ url('admin/get_all_senser/') }}" + '/' + user_id,
@@ -440,8 +519,43 @@ alert(user_id);
                     }
                 })
             }
-
+        }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 
 

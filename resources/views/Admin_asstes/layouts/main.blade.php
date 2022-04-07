@@ -166,7 +166,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
     @elseif(session('error'))
     toastr.error("{{ session('error') }}");
     @endif
-    $('.dropify').dropify();
+
 </script>
 <script>
     function deleteAlert(url) {
