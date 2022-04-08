@@ -406,7 +406,7 @@ class AdminController extends Controller
 
     public function get_all_senser($user_id){
         $all_sens = Sensor::where('user_id', $user_id)->get();
-        
+
 
         $all_ses_detail=array();
 
@@ -414,12 +414,75 @@ class AdminController extends Controller
 
             $all_ses_detail[] =  array("y"=>intval($each_senser->sensorDetail2->temp), "lable"=> $each_senser->Sensor_Location);
         }
-        
+
 
 
 
         return response()->json($all_ses_detail);
     }
+
+
+
+
+    public function get_sensers($senser_id){
+        
+        
+        $sensr = Sensor::where('id', $senser_id)->get();
+        
+        $sensors = Sensor::all();
+
+        
+        $sens = Sensor::where('user_id', auth::user()->id)->orWhere('user_id', auth::user()->admin_id)->get();
+
+        $all_ses_detail=array();
+
+        foreach ($sens as $sensor) {
+            if (isset($sensor->Sensorr_chart))
+                {
+
+                    $all_ses_points=array();
+          foreach ($sensor->sensorDetail3 as $sensors1)
+            {
+
+
+                $all_ses_points[] =  array(
+                    "x"=>strtotime($sensors1->created_at), "y"=> intval($sensors1->temp)
+                    );
+
+                    }
+
+                    $all_ses_detail[] =  array(
+                        "name"=>$sensor->Sensor_Location,
+                        "type"=>"spline",
+                        "yValueFormatString"=>"#0.## °C",
+                        "showInLegend"=>true,
+                        "dataPoints" => $all_ses_points);
+
+
+
+                }
+        }
+
+
+         return response()->json($all_ses_detail);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 public function getting_last_serser($senser_id)
 {

@@ -34,12 +34,13 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @foreach ($sensors as $sensor)
+
                                         <a class="dropdown-item" href="#">
 
-                                            @if (isset($sensor->Sensorr) && $sensor->Sensorr->tick == 1)
+                                            @if (isset($sensor->Sensorr_chart))
                                                 <input type="hidden" value="{{ $sensor->id }}" name="sens_id[]" id="">
                                             @endif
-                                            <input type="checkbox" @if (isset($sensor->Sensorr) && $sensor->Sensorr->tick == 1) checked @endif
+                                            <input type="checkbox" @if (isset($sensor->Sensorr_chart) ) checked @endif
                                                 value="{{ $sensor->id }}" name="senID[]" id="">
 
                                             {{ $sensor->Sensor_Location }}
@@ -268,6 +269,7 @@ $('#form1').submit();
 
 });
     </script> --}}
+
     <script>
         window.onload = function() {
 
@@ -294,9 +296,9 @@ $('#form1').submit();
                 },
                 data: [
                     @foreach ($sens as $sensor)
+
                     @if (isset($sensor->Sensorr_chart))
                 {
-
 
 
 
@@ -522,5 +524,74 @@ echo $sensors1->created_at->format('Y,m,d');
         // });
     });
 </script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
+    <script>
+        var chart;
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        var pusher = new Pusher('{{env('PUSHER_APP_KEY')}}', {
+            cluster: '{{env('PUSHER_APP_CLUSTER')}}'
+        });
+
+        var channel = pusher.subscribe('sensor');
+        channel.bind('sensorEvent', function (response) {
+
+alert('hhhhkkkkk');
+var sensor_id = response['sensor'].id;
+$.ajax({
+    type: "get",
+    url: "{{ url('admin/get_sensers/') }}" + '/' + sensor_id,
+    success: function (chart_ar) {
+        console.log(chart_ar);
+
+        alert('hwlo');
+
+        var  chart =  new CanvasJS.Chart("chartContainer",
+        {
+            animationEnabled: true,
+                title: {
+                    text: "Climate Monitoring Chart (IDF)"
+                },
+                axisX: {
+                    valueFormatString: "DD MMM,YY"
+                },
+                axisY: {
+                    title: "Climate Monitoring Chart",
+                    suffix: ""
+                },
+                legend: {
+                    cursor: "pointer",
+                    fontSize: 16,
+                    itemclick: toggleDataSeries
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: 
+                    chart_ar
+                
+        });
+        chart.render();
+        function toggleDataSeries(e) {
+            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            } else {
+                e.dataSeries.visible = true;
+            }
+            chart.render();
+        }
+
+
+    }
+})
+
+
+
+
+
+
+
+        });
+    </script>
 @endsection

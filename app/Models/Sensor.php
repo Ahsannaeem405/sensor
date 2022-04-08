@@ -27,6 +27,7 @@ class Sensor extends Model
     {
         $start=session::get('start');
         $end=session::get('end');
+       
         if ($start!=null && $end !=null) {
             return $this->hasMany('App\Models\Sensor_detail', 'sensor_id')->where('created_at','>=',$start)->where('created_at','<=',$end)->orderBy('id', 'DESC')->take(5);
         }

@@ -56,7 +56,7 @@ Route::prefix('/admin')->middleware(['admin','auth'])->group(function(){
 
     Route::get('last_senser/{senser_id}',[AdminController::class,'getting_last_serser']);
     Route::get('get_all_senser/{user_id}',[AdminController::class,'get_all_senser']);
-
+    Route::get('get_sensers/{senser_id}',[AdminController::class,'get_sensers']);
 
 
     Route::get('basictoday2',[AdminController::class,'basictoday2']);
