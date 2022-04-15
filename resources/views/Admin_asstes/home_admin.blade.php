@@ -111,7 +111,7 @@
 
 
 
-            <audio controls>
+            <audio controls style="display:none">
         <source id="alm" src="" type="audio/mpeg">
     </audio>
 
@@ -320,7 +320,7 @@
         </div>
     </div>
 
-<button class="btn btn-danger" id="hh">heheheheh
+<button class="btn btn-danger" style="display:none" id="hh">heheheheh
 </button>
 
 
