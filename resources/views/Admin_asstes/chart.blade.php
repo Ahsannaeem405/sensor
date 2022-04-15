@@ -269,11 +269,11 @@ $('#form1').submit();
 
 });
     </script> --}}
-@php
+{{--  @php
 $a=strtotime($sens->first()->sensorDetail3->first()->created_at);
 $b=$a.'000';
 
-@endphp
+@endphp  --}}
  {{-- @dd(strtotime($sens->first()->sensorDetail3->first()->created_at).'000') --}}
 
     <script>
