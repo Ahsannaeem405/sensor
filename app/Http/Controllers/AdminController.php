@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Events\sendMessage;
+use App\Events\notify;
 use App\Events\senseorEvent;
+use App\Mail\notfy;
 use App\Models\For_sensor;
+use App\Models\notification;
 use App\Models\Sensor;
 use App\Models\Sensor_detail;
 use Illuminate\Http\Request;
@@ -14,9 +17,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
+
+
 
     function index()
     {
@@ -350,11 +356,14 @@ class AdminController extends Controller
 
     function addsensordetail($sensorid)
     {
+// dd(auth::user());
         return view('Admin_asstes.addsensordetail', ['sensorid' => $sensorid]);
     }
 
     function addsensordetail_form(Request $request)
     {
+
+
         $sensor_detail = new Sensor_detail();
         $sensor_detail->sensor_id = $request->sensor_id;
         $sensor_detail->temp = $request->temp;
@@ -367,10 +376,45 @@ class AdminController extends Controller
         $sensor_detail->search_time = $request->search_time;
 
         $sensor_detail->save();
-
         $sensor = Sensor::find($request->sensor_id);
-        $event = event(new senseorEvent($sensor, $sensor_detail));
+if ($sensor_detail->temp > $sensor->point) {
+    $temp_dif=$sensor_detail->temp - $sensor->point;
+    $sensor_notify = new notification();
+    $sensor_notify->user_id = $sensor->user_id;
+    $sensor_notify->msg = 'Your Temperature is '. $temp_dif .'C  High';
+    $sensor_notify->senser_id = $sensor->id;
+    $sensor_notify->status = 0;
+    $sensor_notify->save();
 
+    $notification_msg=$sensor_notify->msg;
+    $u_id=$sensor_notify->user_id;
+    $notify_id=$sensor_notify->id;
+
+
+    $usr=User::where('id',$u_id)->first();
+    $a=$sensor_notify->msg;
+    Mail::to($usr->email)->send(new notfy($a));
+    event(new notify($notification_msg,$u_id,$notify_id));
+    $users=User::where('admin_id',$sensor->user_id)->get();
+    foreach ($users as $key => $user) {
+        $sensor_notify = new notification();
+        $sensor_notify->user_id = $user->id;
+        $sensor_notify->msg = 'Your Temperature is '. $temp_dif .'C  High';
+        $sensor_notify->senser_id = $sensor->id;
+        $sensor_notify->status = 0;
+        $sensor_notify->save();
+
+        $notification_msg=$sensor_notify->msg;
+        $u_id=$sensor_notify->user_id;
+    $notify_id=$sensor_notify->id;
+
+    $a=$sensor_notify->msg;
+    $usr=User::where('id',$u_id)->first();
+    Mail::to($usr->email)->send(new notfy($a));
+        event(new notify($notification_msg,$u_id,$notify_id));
+    }
+}
+        $event = event(new senseorEvent($sensor, $sensor_detail));
         return redirect()->back()->with('success', 'Successfully Sensor_Detail Added');
     }
 
@@ -401,6 +445,10 @@ class AdminController extends Controller
         $sensor_detail->search_time = $request->search_time;
 
         $sensor_detail->save();
+
+        $sensor = Sensor::find($request->sensor_id);
+        $event = event(new senseorEvent($sensor, $sensor_detail));
+
         return redirect()->back()->with('success', 'Successfully Updated');
     }
 
@@ -425,13 +473,13 @@ class AdminController extends Controller
 
 
     public function get_sensers($senser_id){
-        
-        
+
+
         $sensr = Sensor::where('id', $senser_id)->get();
-        
+
         $sensors = Sensor::all();
 
-        
+
         $sens = Sensor::where('user_id', auth::user()->id)->orWhere('user_id', auth::user()->admin_id)->get();
 
         $all_ses_detail=array();
@@ -444,9 +492,9 @@ class AdminController extends Controller
           foreach ($sensor->sensorDetail3 as $sensors1)
             {
 
-
+                $dat_frmt =intval(strtotime($sensors1->created_at).'000');
                 $all_ses_points[] =  array(
-                    "x"=>strtotime($sensors1->created_at), "y"=> intval($sensors1->temp)
+                    "x"=>$dat_frmt, "y"=> intval($sensors1->temp)
                     );
 
                     }
@@ -455,6 +503,7 @@ class AdminController extends Controller
                         "name"=>$sensor->Sensor_Location,
                         "type"=>"spline",
                         "yValueFormatString"=>"#0.## °C",
+                        "xValueType"=>"dateTime",
                         "showInLegend"=>true,
                         "dataPoints" => $all_ses_points);
 
@@ -473,7 +522,25 @@ class AdminController extends Controller
 
 
 
+public function get_charts_change($senser_id)
+{
+    $senser_id=$senser_id;
+    $snser=Sensor::where('id',$senser_id)->first();
+    $s_loc=$snser->Sensor_Location;
 
+    $all_points=array();
+          foreach ($snser->sensorDetail4($snser->id) as $sensors1)
+            {
+
+                $all_points[] =  array(
+                    "x"=> intval(strtotime($sensors1->created_at).'000'),
+                     "y"=> intval($sensors1->temp)
+                    );
+            }
+
+            return response()->json(array('all_points' =>$all_points, 'senser_id' =>$senser_id, 's_loc' =>$s_loc));
+
+}
 
 
 
@@ -491,15 +558,25 @@ public function getting_last_serser($senser_id)
 return view('Admin_asstes.ajax_last_senser', compact('sens'));
 
 }
+public function notify_status()
+{
+$notify_status=notification::where('user_id',Auth::user()->id)->get();
+foreach ($notify_status as $notify_status) {
+            $notify_status->status=1;
+            $notify_status->save();
+        }
+
+return redirect()->back();
+}
     function home_admin()
     {
 
         $userid = Auth::user()->id;
 
         $sens = Sensor::where('user_id', $userid)->orWhere('user_id', auth::user()->admin_id)->get();
+        $notify = notification::where('user_id', auth::user()->id)->where('status',0)->get();
 
-
-        return view('Admin_asstes.home_admin', compact('sens'));
+        return view('Admin_asstes.home_admin', compact('sens','notify'));
     }
 
     function basictoday2()

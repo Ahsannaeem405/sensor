@@ -7,6 +7,86 @@
                         <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a></li>
                     </ul>
                     <h3 class="m-auto">@yield('heading')</h3>
+                    <h3 class="m-auto">
+                    <p style="text-align: right">
+
+                        <style>
+                            .blue-color {
+                                color:blueviolet;font-size:30px;
+                            }
+                            .dropdown-toggle:empty::after {
+display:none;
+                            }
+
+                           </style>
+
+                        @php
+                        $msges=array();
+                        @endphp
+                        @foreach ($notify as $noti)
+                        @php
+                        $msges[]=$noti->msg;
+                        @endphp
+                        @endforeach
+
+
+
+
+
+
+
+
+</p>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+  <div class="dropdown">
+    @if (count($msges) >= 1)
+<i id="notify_No" style="    position: absolute;
+right: -24%;
+background-color: red;
+border-radius: 50%;
+font-size: 13px;
+color: white;
+height: 17px;
+width: 17px;
+text-align:center">{{ count($msges) }}</i>
+    @endif
+        <span class="bi bi-bell blue-color dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+
+    <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+
+            @foreach ($notify as $notify)
+            <a class="dropdown-item" href="#">{{ $notify->msg }}</a>
+            @endforeach
+<i id="notify_append"></i>
+            @if (count($msges) >= 1)
+            <a href="{{url('admin/notify_click/')}}" style="margin-left:30%" >Mark all Read</a>
+            @endif
+
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+                    </h3>
                 </div>
                 <ul class="nav navbar-nav float-right">
 

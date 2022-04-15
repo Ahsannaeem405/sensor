@@ -50,6 +50,11 @@
                                                                            style="margin: 0px;display: inline-block;">
                                                                             Temperature is
                                                                             High</p>
+<script>
+$(document).ready(function () {
+$("#hh").click();
+});
+</script>
 
 
 

@@ -1,5 +1,6 @@
 @extends('Admin_asstes.layouts.main')
 
+
 @section('content')
     <style>
         a.canvasjs-chart-credit {
@@ -25,6 +26,23 @@
                         {{ session()->get('error') }}
                     </div>
                 @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 <div style="margin-bottom:20px" class="dropdown">
@@ -93,11 +111,9 @@
 
 
 
-
-
-
-        <audio src="{{asset("image/ring.mp3")}}" audio="{{asset("image/ring.mp3")}}" class="audio" controls ></audio>
-
+            <audio controls>
+        <source id="alm" src="" type="audio/mpeg">
+    </audio>
 
 
 
@@ -304,7 +320,7 @@
         </div>
     </div>
 
-<button class="btn btn-danger" id="hh">hehehehheheheheheheheheh
+<button class="btn btn-danger" id="hh">heheheheh
 </button>
 
 
@@ -356,7 +372,7 @@ var chart;
 
 
         window.onload = function () {
-alert(ar[1]['lable']);
+
 console.log(ar);
 
 
@@ -382,7 +398,6 @@ console.log(ar);
 
         }
 
-
         $(document).ready(function () {
 
 
@@ -392,7 +407,7 @@ console.log(ar);
                         "y":27,
                         "lable":"t"
       };
-
+alert('showing');
                 alert(ar[0]['lable']);
                 console.log(ar);
 
@@ -439,124 +454,8 @@ alert(user_id);
 
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script>
 
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-        var pusher = new Pusher('{{env('PUSHER_APP_KEY')}}', {
-            cluster: '{{env('PUSHER_APP_CLUSTER')}}'
-        });
-
-        var channel = pusher.subscribe('sensor');
-        channel.bind('sensorEvent', function (response) {
-
-
-
-setInterval(function({
-    var obj = document.createElement('audio');
-    var audio = $('.audio').attr('audio');
-    obj.src = audio;
-    obj.play();
-}, 3000))
-
-
-
-
-
-
-            var user_id= document.getElementById('u_id').value;
-
-            var sensor_id = response['sensor'].id;
-            var senser_user_id = response['sensor'].user_id;
-var a=response['sensor'].point;
-var b=response['sensorDetail'].temp;
-
-if(response['sensorDetail'].temp > response['sensor'].point){
-alert('greater');
-}
-
-
-            console.log(response['sensor'].point);
-            if(senser_user_id == user_id){
-            if(($('.sensorData'+sensor_id).length)==1)
-            {
-
-
-                $.ajax({
-                    type: "get",
-                    url: "{{ url('admin/last_senser/') }}" + '/' + sensor_id,
-                    success: function (data) {
-                        $('#serser_show'+sensor_id).empty().append(data);
-
-
-
-
-
-        $.ajax({
-            type: "get",
-            url: "{{ url('admin/get_all_senser/') }}" + '/' + user_id,
-            success: function (data) {
-                console.log(data);
-                chart.options.data[0].dataPoints = data;
-                chart.render();
-            }
-        })
-
-
-
-
-
-
-
-
-
-
-                    }
-                })
-            }
-        }
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </script>
 
 
 @endsection

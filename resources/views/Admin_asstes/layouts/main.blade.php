@@ -38,6 +38,36 @@
     <link rel="stylesheet" type="text/css" href="{{asset('admin/admin/app-assets/vendors/css/charts/apexcharts.css')}}">
     <link rel="stylesheet" href="{{asset('datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('datepicker.js')}}">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+
+
+
+
+
     <style>
         div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_filter, div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_paginate {
     text-align: right !important;
@@ -61,6 +91,15 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 </head>
 
 <body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+
+    @if (Auth()->User()->role == "admin")
+    <input type="hidden" id="u_id" value="{{Auth()->User()->id}}">
+    @else
+    <input type="hidden" id="u_id" value="{{Auth()->User()->admin_id}}">
+    @endif
+
+
+
 
 <!-- BEGIN: Navbar-->
 @include('Admin_asstes.layouts.navbar')
@@ -203,6 +242,207 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 
 
 @yield('js')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('{{env('PUSHER_APP_KEY')}}', {
+        cluster: '{{env('PUSHER_APP_CLUSTER')}}'
+    });
+
+    var channel = pusher.subscribe('sensor');
+    channel.bind('sensorEvent', function (response) {
+
+
+
+
+
+
+
+
+
+
+        var user_id= document.getElementById('u_id').value;
+
+        var sensor_id = response['sensor'].id;
+        var senser_user_id = response['sensor'].user_id;
+var a=response['sensor'].point;
+var b=response['sensorDetail'].temp;
+
+if(response['sensorDetail'].temp > response['sensor'].point){
+alert('greater');
+}
+
+
+        console.log(response['sensor'].point);
+        if(senser_user_id == user_id){
+        if(($('.sensorData'+sensor_id).length)==1)
+        {
+
+
+            $.ajax({
+                type: "get",
+                url: "{{ url('admin/last_senser/') }}" + '/' + sensor_id,
+                success: function (data) {
+                    $('#serser_show'+sensor_id).empty().append(data);
+
+
+
+
+
+    $.ajax({
+        type: "get",
+        url: "{{ url('admin/get_all_senser/') }}" + '/' + user_id,
+        success: function (data) {
+            console.log(data);
+            chart.options.data[0].dataPoints = data;
+            chart.render();
+        }
+    })
+
+
+
+
+
+
+
+
+
+
+                }
+            })
+        }
+    }
+    });
+
+
+
+
+
+
+    var channel = pusher.subscribe('sensor');
+    channel.bind('notify', function (response) {
+var user_id= document.getElementById('u_id').value;
+   if(response['u_id'] == user_id){
+       alert('yes');
+       var div = document.getElementById("notify_No");
+       const num = parseInt(div.innerHTML);
+
+
+       //increments the number
+div.innerHTML = num + 1;
+
+
+       $('#notify_append').append('<a class="dropdown-item" href="#">'+response['msg']+'</a>');
+   }
+
+    });
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 <!-- END: Body-->

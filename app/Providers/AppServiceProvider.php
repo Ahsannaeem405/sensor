@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\notification;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+//dd(Auth::user());
+view()->composer(['Admin_asstes.layouts.main'],function($view){
+
+    $notify = notification::where('user_id', auth::user()->id)->where('status',0)->get();
+    $view->with('notify',$notify);
+});
+
+
     }
 }

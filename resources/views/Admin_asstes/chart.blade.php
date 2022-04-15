@@ -269,6 +269,12 @@ $('#form1').submit();
 
 });
     </script> --}}
+@php
+$a=strtotime($sens->first()->sensorDetail3->first()->created_at);
+$b=$a.'000';
+
+@endphp
+ {{-- @dd(strtotime($sens->first()->sensorDetail3->first()->created_at).'000') --}}
 
     <script>
         window.onload = function() {
@@ -280,7 +286,7 @@ $('#form1').submit();
                     text: "Climate Monitoring Chart (IDF)"
                 },
                 axisX: {
-                    valueFormatString: "DD MMM,YY"
+                    valueFormatString: "DD MMMM YYYY"
                 },
                 axisY: {
                     title: "Climate Monitoring Chart",
@@ -305,19 +311,18 @@ $('#form1').submit();
                     name: "<?php echo $sensor->Sensor_Location; ?>",
                         type: "spline",
                         yValueFormatString: "#0.## °C",
+                        xValueType: "dateTime",
                         showInLegend: true,
-
-
 
                         dataPoints: [
                             @foreach ($sensor->sensorDetail3 as $sensors1)
                             {
                                 // x: new Date(2017, 6, 24),
 
-                                x: new Date(<?php
+                                x: <?php
 
-                                    echo $sensors1->created_at->format('Y,m,d');
-                                    ?>),
+                                echo strtotime($sensors1->created_at).'000';
+                                ?>,
 
 
 
@@ -414,9 +419,8 @@ $('#form1').submit();
 
                             {
                                 x: new Date(<?php
-
-echo $sensors1->created_at->format('Y,m,d');
-?>),
+                                         echo $sensors1->created_at->format('Y,m,d');
+                                             ?>),
                                 y: {{$sensors1->temp}}
                             },
                             @endforeach
@@ -537,15 +541,95 @@ echo $sensors1->created_at->format('Y,m,d');
         var channel = pusher.subscribe('sensor');
         channel.bind('sensorEvent', function (response) {
 
-alert('hhhhkkkkk');
+
+
+
+
 var sensor_id = response['sensor'].id;
+$.ajax({
+    type: "get",
+    url: "{{ url('admin/get_charts_change/') }}" + '/' + sensor_id,
+    success: function (response) {
+
+
+
+            var c= response['senser_id'];
+            console.log(response['all_points']);
+
+
+
+            <?php
+                  $snsr_id = "<script>document.write(c)</script>";
+    ?>
+
+            var chart = new CanvasJS.Chart("chartContainers"+c, {
+                animationEnabled: true,
+                title: {
+                    text: response['s_loc']
+                },
+                axisX: {
+                    valueFormatString: "DD MMM,YY"
+                },
+                axisY: {
+                    title: response['s_loc'],
+                    suffix: " °C"
+                },
+                legend: {
+                    cursor: "pointer",
+                    fontSize: 16,
+                    itemclick: toggleDataSeries
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: [
+
+                    {
+
+                        name: response['s_loc'],
+                        type: "spline",
+                        yValueFormatString: "#0.## °C",
+                        xValueType: "dateTime",
+                        showInLegend: true,
+                        dataPoints:
+                            response['all_points']
+
+
+                    }
+                ]
+            });
+            console.log(chart);
+            chart.render();
+            function toggleDataSeries(e) {
+                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+                chart.render();
+            }
+
+
+
+
+                }
+            });
+
+
+
 $.ajax({
     type: "get",
     url: "{{ url('admin/get_sensers/') }}" + '/' + sensor_id,
     success: function (chart_ar) {
+
+
+
+
+
+
         console.log(chart_ar);
 
-        alert('hwlo');
+
 
         var  chart =  new CanvasJS.Chart("chartContainer",
         {
@@ -568,9 +652,9 @@ $.ajax({
                 toolTip: {
                     shared: true
                 },
-                data: 
+                data:
                     chart_ar
-                
+
         });
         chart.render();
         function toggleDataSeries(e) {
@@ -594,4 +678,15 @@ $.ajax({
 
         });
     </script>
-@endsection
+
+
+
+
+
+
+
+
+
+
+
+    @endsection
