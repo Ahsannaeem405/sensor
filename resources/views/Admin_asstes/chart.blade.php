@@ -414,13 +414,15 @@ $b=$a.'000';
                         type: "spline",
                         yValueFormatString: "#0.## °C",
                         showInLegend: true,
+                        xValueType: "dateTime",
                         dataPoints: [
                             @foreach ($sensor->sensorDetail4($sensor->id) as $sensors1)
 
                             {
-                                x: new Date(<?php
-                                         echo $sensors1->created_at->format('Y,m,d');
-                                             ?>),
+                                x: <?php
+                                echo strtotime($sensors1->created_at).'000'
+
+                                             ?>,
                                 y: {{$sensors1->temp}}
                             },
                             @endforeach
