@@ -46,15 +46,7 @@
 
 
                 <div style="margin-bottom:20px" class="dropdown">
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-primary float-right" data-toggle="modal"
-                                    data-target="#exampleModal">
-                                Disabled Sensors
-                            </button>
-                            {{-- <a href="{{url('admin/disabled_sensors')}}" class="btn btn-primary float-right">Disabled Sensors</a> --}}
-                        </div>
-                    </div>
+
 
                     <form method="POST" action="{{ url('admin/view/temp') }}">
                         @csrf
@@ -255,6 +247,49 @@
                                                 @endif
                                             @endforeach
 
+
+
+
+
+
+
+
+
+                                            <div class="col-md-6 col-12chartnew">
+                                                <div class="white-box shadow">
+
+                                                    <div class="table-responsive"
+                                                        style="text-align: center;    padding: 22px;">
+
+                                                        <img id="myBtn" src="{{ asset('image/plus.png') }}"
+                                                            style="width: 107px;" data-toggle="modal"
+                                                            data-toggle="modal"
+                                                            data-target="#exampleModal">
+
+
+                                                        {{-- <button type="button" class="btn btn-primary" >
+                                                                Launch demo modal
+                                                              </button> --}}
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                         </div>
 
                                     </div>
@@ -281,7 +316,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Disable Sensor</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Sensor</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
