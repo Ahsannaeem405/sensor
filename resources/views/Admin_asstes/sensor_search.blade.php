@@ -37,10 +37,13 @@
                         <select name="sensor" class="form-control" required>
                             @foreach ($sensors as $sensor )
                             @if (isset($sensor_list))
-                            <option value="{{$sensor->id}}" @if ($sensor_list[0]->sensor_id==$sensor->id)
+                            <option value="{{$sensor->id}}"
+                            @isset($sensor_list[0])
+                                @if ($sensor_list[0]->sensor_id==$sensor->id)
                                 selected
 
-                            @endif>{{$sensor->Sensor_Location}}</option>
+                            @endif
+                            @endisset >{{$sensor->Sensor_Location}}</option>
                             @else
                             <option value="{{$sensor->id}}">{{$sensor->Sensor_Location}}</option>
                             @endif
